@@ -49,6 +49,7 @@ end
 ```
 
 2. in your controller, use the macro
+
 ``` ruby
 class ApplicationController
   oauth_db_switch
