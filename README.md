@@ -1,6 +1,6 @@
 # OauthMultiDb
 
-Switch mongo db based on incoming oauth client
+Switch rails app's db based on incoming oauth client
 
 ## Installation
 
@@ -19,13 +19,13 @@ Or install it yourself as:
 ## Usage
 
 For each request, if oauth client is found. it retrieves client.client_symbol value (from notes field), 
-and uses it to switch to corresponding mongo db.
+and uses it to switch to corresponding db.
 
 To set client_symbol value on Oauth2 client, do it when your register it:
 ``` ruby
     Rack::OAuth2::Server.register(
       :display_name => 'oauth client 1',
-      :notes => {'client_symbol' => 'abc'}.to_json
+      :notes => {'client_symbol' => 'client_1'}.to_json
     )
 ```
 
@@ -35,10 +35,16 @@ Setup
 require 'oauth_multi_db'
 
 OauthMultiDb.configure do |config|
-  config.domain_models = [User, Article]    # mongoid models that will have db changed.
+  config.domain_models = [User, Article]    # models that will have db changed.
 
-  # your custom way to generate db name based on client_symbol, must be a lambda or proc
-  config.name_builder = lambda {|client_symbol| Mongoid.master.name + "_" + client_symbol.to_s }
+  # your custom way to change db, or anything based on client_symbol
+  config.db_switcher  = lambda {|client_symbol| 
+                          new_db = "db_" + client_symbol.to_s 
+
+                          OauthMultiDb.config.domain_models.each do |klass|
+                            # change klass's db to new_db
+                          end
+                        }
 end
 ```
 

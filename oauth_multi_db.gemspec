@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Dorren Chen"]
   gem.email         = ["dorrenchen@gmail.com"]
   gem.description   = %q{oauth client based db switching}
-  gem.summary       = %q{switch mongo db based on incoming oauth client}
+  gem.summary       = %q{switch db based on incoming oauth client}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)
@@ -16,7 +16,6 @@ Gem::Specification.new do |gem|
   gem.version       = OauthMultiDb::VERSION
 
   gem.add_dependency "rails"
-  gem.add_dependency "mongoid"
   gem.add_dependency "rack-oauth2-server"
   gem.add_development_dependency "rspec"
   gem.add_development_dependency "rspec-rails"
